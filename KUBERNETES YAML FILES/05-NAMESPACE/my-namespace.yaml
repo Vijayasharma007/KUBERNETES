@@ -1,0 +1,9 @@
+apiversion: v1
+kind: Namespace
+metadata:
+  name: my-namespace
+  labels:
+    name: development
+
+# imperative way to define namespace:
+  # kubectl create namespace <namespace name>

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: vol-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vol-deploy
+  template:
+    metadata:
+      labels: 
+        name: vol-deploy
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        volumeMounts:
+          name: volume
+          mountPath: "/var/nginx"
+      volumes:
+        name: volume
+        hostpath:
+          path: /mnt/data

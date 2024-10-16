@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:    
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd            
+
+
+# kubectl get nodes --show-label
+# kubectl label nodes <your name node> <key>=<ssd>
+# kubectl get pods --output=wide

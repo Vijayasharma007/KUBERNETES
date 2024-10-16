@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-static-pod
+  labels:
+    app: nginx-pod
+    tier: frond-end
+spec:
+  containers:
+    - name: my-static-pod
+      image: nginx
+      ports:
+        - containerPort: 80
+  nodeName: node1  # specify the node here
+
+
+# nodeName This field is used to manually specify 
+# the node where the pod will be scheduled. 
+# Replace <node-name> with the actual name of the node where you want the pod to run.
+  

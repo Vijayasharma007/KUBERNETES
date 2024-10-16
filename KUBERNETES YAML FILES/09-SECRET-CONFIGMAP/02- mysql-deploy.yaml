@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-secret-demo
+  labels:
+    app: mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mysql-secret-demo
+  template:
+    metadata: 
+      labels:
+        app: mysql-secret-demo
+    spec:
+      containers:
+      - name: mysql-secret-demo
+        image: docker.io/mariadb
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: 01-secret
+      # envFrom:
+    #     - secretRef:
+   #       name: 01-secret

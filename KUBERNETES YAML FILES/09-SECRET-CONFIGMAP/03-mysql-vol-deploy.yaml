@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-secret-demo
+  labels:
+    app: mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mysql-secret-demo
+  template:
+    metadata:
+      labels:
+        app: mysql-secret-demo
+    spec:
+      containers:
+      - name: mysql-secret-demo
+        image: nginx
+        ports: 
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: newsecret
+          mountPath: "/etc/newsecret"
+          readOnly: true
+      volumes:
+      - name: newsecret
+        secret:
+         secretName: mysql-secret-demo
