@@ -1,0 +1,74 @@
+RBAC - kubernetes
+
+Key_Genaration: 
+
+openssl genrsa -out sam.key 2048
+
+------------------------------------------------------
+
+
+CSR:  Certification singing request
+
+openssl req -new -key sam.key -out sam.csr -subj "/CN=sam/O=example.org/O=dev" -config /etc/ssl/openssl.cnf
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+CA: Certificate Authority
+
+
+sudo openssl x509 -req \
+  -in sam.csr \
+  -CA ~/.minikube/ca.crt \
+  -CAkey ~/.minikube/ca.key \
+  -CAcreateserial \
+  -out sam.crt \
+  -days 900
+
+------------------------------------------------------------------------------------------
+
+
+You can verify that the private key and certificate match with this command:
+
+openssl x509 -noout -modulus -in sam.crt | openssl md5
+openssl rsa -noout -modulus -in sam.key | openssl md5
+
+
+------------------------------------------------------------------------------------------------
+
+
+Set-credential
+
+kubectl config set-credentials sam \
+  --client-certificate=sam.crt \
+  --client-key=sam.key \
+  --embed-certs=true
+
+
+------------------------------------------------------------------------------------------------------
+
+
+kubectl config set-context sam-minikube --cluster=minikube --user=sam --namespace=default
+
+------------------------------------------------------------------------------------------------------------------
+
+kubectl config get-contexts
+CURRENT   NAME           CLUSTER    AUTHINFO   NAMESPACE
+*         minikube       minikube   minikube   default
+          sam-minikube   minikube   sam        default
+
+kubectl config use-context sam-minikube
+Switched to context "sam-minikube".
+
+
+kubectl config get-contexts
+CURRENT   NAME           CLUSTER    AUTHINFO   NAMESPACE
+          minikube       minikube   minikube   default
+*         sam-minikube   minikube   sam        default
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+Kubectl api-resource -o wide | grep pod
+
