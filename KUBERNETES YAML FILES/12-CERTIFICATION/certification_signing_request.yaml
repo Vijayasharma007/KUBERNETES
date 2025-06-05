@@ -1,0 +1,24 @@
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: adam-csr
+spec:
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1ZEQ0NBVHdDQVFBd0R6RU5NQXNHQTFVRUF3d0VZV1JoYlRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRApnZ0VQQURDQ0FRb0NnZ0VCQU5nRG1OZVRkbWtxTERyYjErWDdiWlYveElMakFjazgwTkxnWHRBeXptaGRyZ3VuCjJNUllUUld1bGVWY2E2RTU1OTZpUkIveEN6TktLejlBNVU5dndmL01nbWpyOFpFUHc1eEk1QTh1WXhNUWlzM0oKTEFwWVRUeE5JTG5hcm80UWVMRkpxYVlCRDRIbVVpSStpOUlPWWZ6UHQwOHJWRFB1YTJOYStFMS9DNlMzMnV3ego0MXJ1QXp2eXU3WEY1N0RRNFVwK0o3cWJOc2JZTWRxL3U1bURSNkxRSUFvTTA4d1NFQ0JZcG52LzlPTUJuZmwvCjlubmM3bUV3RU8zV1VwU1dSSWQ5S255SGZieWpEZG5ENTRONm1CN25yN2NMUk5TYzhST3FZSUtLNUJEcWUvekcKd1hIa2dhVitjTUt6eGVzNHRJLzZNZjk5NjAxUVNQM2o3WVd1UE1NQ0F3RUFBYUFBTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQkEwaUdaNUlSN3ZraCtBdXhPa0lJSTRrRlN3SXFNaDN1NG1rMFRnOFRKcDZRaGhobWVIR0sxClZhbTRZeEtRQW1lMzAzVVRDM3NhMGIzR0pUWlUrWVA2OVprZlQrVzJ2VW1ncEIwQU5JcWVWVldBSXdITng4bUMKVHI5Y1U2VmVBb0VSalMwZ1pycXFmT210KzZtVDdMeCs5dUkvSUFPeXNmMHFuVlJsUWwyZkxTYU9sY3pJdEU4bQpBQVpOZ2kxUXNDWEdlQzl2Zko0Y1U3MEpTeFp4bFVjN2ZDTUZ2UlFweHp4VCtjMTFpUWJtOCtlUXJlRGNYNTBXClBOVTlGOWlWMmhHdHZ3YWdMaVA4OTdHZ1c1c1k2bWhlOHpUblZZbG5QR21Mam9BZkJvL28ycUxWVHNDMWdwa0sKQnB1OVU4bzNNclY2aVdaY2htMUdoa3lTTzZKbUxwQUYKLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==
+  signerName: example.com/serving
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+
+
+# openssl genrsa -out adam.key 2048
+# openssl req -new -key adam.key -out adam.csr -subj "/CN=adam" -config /etc/ssl/openssl.cnf
+
+
+
+# cat adam.csr | base64 | tr -d "\n"
+# tr -d "\n": Removes all newline characters (\n) from the output, so the result is a single-line Base64 string.
+
+
+# kubectl certificate approve < csr name > 
+# base64 --decode
